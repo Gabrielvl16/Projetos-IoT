@@ -1,0 +1,20 @@
+// C++ code
+//
+// Comando do arduino
+void setup()
+{
+  pinMode(7, OUTPUT); // Definindo os pinos 7 e 6
+  pinMode(6, OUTPUT);
+  
+}
+
+void loop()
+{
+  digitalWrite(7, HIGH); // Comando para ligar led 7
+  digitalWrite(6, LOW); // Comando para ligar led 6
+  delay(2000); // Comando para delay de 2000 milissegundos
+  
+  digitalWrite(7, LOW);
+  digitalWrite(6, HIGH);
+  delay(2000);
+}
