@@ -1,0 +1,55 @@
+// Definir os pinos dos componentes
+const int triggerPin = 7;   
+const int echoPin = 6;   
+const int led1Pin = 9;      
+const int led2Pin = 10;    
+
+// Função para ler a distância do sensor ultrassônico
+long readUltrasonicDistance(int triggerPin, int echoPin) {
+  pinMode(triggerPin, OUTPUT); // Definir o pino do trigger como saída
+  digitalWrite(triggerPin, LOW); 
+  delayMicroseconds(2); 
+
+  // Enviar o pulso de trigger
+  digitalWrite(triggerPin, HIGH); 
+  delayMicroseconds(10); 
+  digitalWrite(triggerPin, LOW); 
+
+  pinMode(echoPin, INPUT); // Definir o pino do echo como entrada
+  long duration = pulseIn(echoPin, HIGH); // Ler o tempo do pulso
+
+  // Calcular a distância
+  long distance = duration * 0.0344 / 2; 
+  return distance;
+}
+
+void setup() {
+  pinMode(led1Pin, OUTPUT); // Definir o pino do primeiro LED como saída
+  pinMode(led2Pin, OUTPUT); // Definir o pino do segundo LED como saída
+  Serial.begin(9600); // Inicializar a comunicação serial
+}
+
+void loop() {
+  long distance = readUltrasonicDistance(triggerPin, echoPin);
+
+  // Controle do primeiro LED com base na distância
+  if (distance < 60) {
+    digitalWrite(led1Pin, HIGH);
+  } else {
+    digitalWrite(led1Pin, LOW);
+  }
+
+  // Controle do segundo LED com base em um novo parâmetro de distância
+  if (distance < 30) { // Distância menor que 30 cm
+    digitalWrite(led2Pin, HIGH);
+  } else {
+    digitalWrite(led2Pin, LOW);
+  }
+
+  // Mostrar a distância no monitor serial
+  Serial.print("Distância: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  delay(100); // Atraso para melhorar o desempenho da simulação
+}
